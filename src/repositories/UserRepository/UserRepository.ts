@@ -1,9 +1,9 @@
 import { User } from "../../entities/User";
-import { IUserRepository } from "./IUserRepository";
+import { IUser, IUserRepository } from "./IUserRepository";
 
 export class UserRepository implements IUserRepository{
-    
-    save(user: User): void {
+
+    save(user: IUser): User {
         throw new Error("Method not implemented.");
     }
 

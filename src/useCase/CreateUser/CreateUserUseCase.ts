@@ -4,7 +4,7 @@ import { ICreateUserRequestDTO } from "./CreateUserDTO";
 export class CreateUserUseCase {
 
     constructor(
-        private userRepository: IUserRepository;
+        private userRepository: IUserRepository
     ){}
 
     async execute(data: ICreateUserRequestDTO) {
@@ -13,5 +13,13 @@ export class CreateUserUseCase {
         if(userAlreadExists) {
             return new Error('User Exists');
         }
+
+        const newUser = await this.userRepository.save({
+            email: "",
+            name: "",
+            password: ""
+        });
+
+        return newUser;
     }
 }
