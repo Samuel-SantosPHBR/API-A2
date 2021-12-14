@@ -1,24 +1,35 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
-import { v4 as uuidV4 } from "uuid";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { IUser } from "../repositories/UserRepository/IUserRepository";
 
 @Entity('user')
 export class User{
 
-    @PrimaryColumn()
-    id:             string;
+    @PrimaryGeneratedColumn('increment')
+    id:             number;
 
     @Column()
     name:           string;
 
     @Column()
-    description:    string;
+    email:           string;
+
+    @Column()
+    password:    string;
+
+    @Column()
+    anniversary:    Date;
+
+    @Column()
+    phone:    string;
 
     @CreateDateColumn()
     created_at:     Date;
 
-    constructor(){
-        if(!this.id){
-            this.id = uuidV4()
-        }
+    constructor({name, email, password, anniversary, phone}: IUser){
+        this.name           = name
+        this.email          = email
+        this.password       = password
+        this.anniversary    = anniversary
+        this.phone          = phone
     }
 }
