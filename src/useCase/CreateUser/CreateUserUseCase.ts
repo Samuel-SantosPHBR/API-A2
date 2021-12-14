@@ -1,24 +1,19 @@
-import { IUserRepository } from "../../repositories/UserRepository/IUserRepository";
-import { ICreateUserRequestDTO } from "./CreateUserDTO";
+import { IUser, IUserRepository } from "../../repositories/UserRepository/IUserRepository";
 
-export class CreateUserUseCase {
+export class CreateUseUseCase {
 
     constructor(
-        private userRepository: IUserRepository
+        private repository: IUserRepository
     ){}
 
-    async execute(data: ICreateUserRequestDTO) {
-        const userAlreadExists = await this.userRepository.findByEmail(data.email);
+    async execute(user: IUser) {
+        const checkUser = await this.repository.findByEmail({email: user.email,password:user.password});
 
-        if(userAlreadExists) {
-            return new Error('User Exists');
+        if(checkUser){
+            return new Error('User already Exists!');
         }
 
-        const newUser = await this.userRepository.save({
-            email: "",
-            name: "",
-            password: ""
-        });
+        const newUser = await this.repository.save(user);
 
         return newUser;
     }
