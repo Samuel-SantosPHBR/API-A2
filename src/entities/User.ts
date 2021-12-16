@@ -1,6 +1,4 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { IUser } from "../repositories/UserRepository/IUserRepository";
-
 @Entity('user')
 export class User{
 
@@ -25,11 +23,4 @@ export class User{
     @CreateDateColumn()
     created_at:     Date;
 
-    constructor({name, email, password, anniversary, phone}: IUser){
-        this.name           = name
-        this.email          = email
-        this.password       = password
-        this.anniversary    = anniversary
-        this.phone          = phone
-    }
 }

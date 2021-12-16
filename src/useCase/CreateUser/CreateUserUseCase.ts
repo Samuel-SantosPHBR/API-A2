@@ -1,20 +1,22 @@
-import { IUser, IUserRepository } from "../../repositories/UserRepository/IUserRepository";
-
-export class CreateUseUseCase {
-
-    constructor(
-        private repository: IUserRepository
-    ){}
+import { IUser } from "../../interfaces/UserInterfaces/IUserInterfaces";
+import { getRepository } from "typeorm";
+import { User } from "../../entities/User";
+import md5 from 'md5';
+export class CreateUserUseCase {
 
     async execute(user: IUser) {
-        const checkUser = await this.repository.findByEmail({email: user.email,password:user.password});
+        const repo = getRepository(User);
+
+        const checkUser = await repo.findOne({email:user.email});
 
         if(checkUser){
             return new Error('User already Exists!');
         }
+        
+        const newUserT = repo.create({...user,password:md5(user.password)});
 
-        const newUser = await this.repository.save(user);
+        await repo.save(newUserT);
 
-        return newUser;
+        return true;
     }
 }
